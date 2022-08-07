@@ -19,7 +19,7 @@ public class Cell {
      */
 
     // Fields/attributes of the class.
-    boolean colour; // Where false is black and true is white.
+    final boolean colour; // Where false is black and true is white.
     Piece piece; // If no chess piece exist upon the current cell then this value points to null.
 
     // Constructors of the class.
@@ -40,5 +40,6 @@ public class Cell {
     // Public non-static methods of the class.
     public boolean isEmpty() {return piece == null;}
 
+    @Override
     public String toString() {return (this.piece != null) ? "this.piece.getName()[0]" : this.colour ?  "-"  :  "*";}
 }
