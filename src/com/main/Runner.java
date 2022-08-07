@@ -4,12 +4,14 @@ package com.main;
 // Imports from custom libraries, classes and interfaces.
 
 // Imports from existing Java libraries, classes and interfaces.
+import com.main.gui.GameView;
+
 import javax.swing.*;
 
 public class Runner {
 
     public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(null);
+        SwingUtilities.invokeLater(GameView::new);
     }
 }

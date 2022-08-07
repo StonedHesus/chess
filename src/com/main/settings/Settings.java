@@ -17,9 +17,14 @@ public interface Settings {
      */
 
     // Settings regarding the Chessboard game element.
-    final int CLASSIC_CHESS_NUMBER_OF_COLUMNS = 8;
-    final int CLASSIC_CHESS_NUMBER_OF_ROWS = 8;
-    final Dimension CLASSIC_CHESS_DIMENSIONS = new Dimension(CLASSIC_CHESS_NUMBER_OF_ROWS,
+    int CLASSIC_CHESS_NUMBER_OF_COLUMNS = 8;
+    int CLASSIC_CHESS_NUMBER_OF_ROWS = 8;
+    Dimension CLASSIC_CHESS_DIMENSIONS = new Dimension(CLASSIC_CHESS_NUMBER_OF_ROWS,
             CLASSIC_CHESS_NUMBER_OF_COLUMNS);
+
+    // Settings for the View object.
+    int INITIAL_SCREEN_WIDTH  = 800;
+    int INITIAL_SCREEN_HEIGHT = 800;
+    String GAME_TITLE         = "Chess";
 
 }
