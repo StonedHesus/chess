@@ -5,6 +5,7 @@ package com.main;
 
 // Imports from existing Java libraries, classes and interfaces.
 import com.main.gui.GameView;
+import com.main.gui.graphics.Display;
 
 import javax.swing.*;
 
@@ -12,6 +13,9 @@ public class Runner {
 
     public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(GameView::new);
+        SwingUtilities.invokeLater(() -> {
+
+            new GameView(Display.WHITE_PERSPECTIVE);
+        });
     }
 }

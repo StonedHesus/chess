@@ -27,13 +27,13 @@ public class GameView extends View implements Settings {
     // Fields/attributes of the class.
 
     // Constructor(s) of the class.
-    public GameView(){
+    public GameView(int perspective){
 
         // Call the constructor of the class from which MainMenu inherits.
         super();
 
         // Invoke the initialise method which deals with initialisation of the current JFrame.
-        this.initialise();
+        this.initialise(perspective);
 
     }
 
@@ -46,9 +46,10 @@ public class GameView extends View implements Settings {
     // Public static methods of the unit.
 
     // Private methods of the unit.
-    private void initialise(){
+    private void initialise(int perspective){
         /*
-         * @param none; this function takes no formal arguments upon invocation.
+         * @param perspective; an integer value transmitted to the GameView constructor so as to determine which colour
+         * the current user is going to play with.
          *
          * Initialise the JFrame object to the desired specifications.
          *
@@ -60,7 +61,7 @@ public class GameView extends View implements Settings {
 
         // Instantiate the display field of the current object which called the initialise method, by passing to it the
         // initial screen dimensions which are stored within constants in the Settings interface.
-        this.display = new Display(INITIAL_SCREEN_WIDTH, INITIAL_SCREEN_HEIGHT);
+        this.display = new Display(INITIAL_SCREEN_WIDTH, INITIAL_SCREEN_HEIGHT, perspective);
 
         // Instantiate a new Controller which is linked with the current view/JFrame; the linking is done with the aid
         // of the frame's addKeyListener method which sets the frame's current KeyListener to our controller.

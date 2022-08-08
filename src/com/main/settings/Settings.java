@@ -26,5 +26,7 @@ public interface Settings {
     int INITIAL_SCREEN_WIDTH  = 800;
     int INITIAL_SCREEN_HEIGHT = 800;
     String GAME_TITLE         = "Chess";
-
+    Color BLACK_CELL          = new Color(0xd18b47);
+    Color WHITE_CELL          = new Color(0xffce9e);
+    Color BORDER_COLOR        = Color.LIGHT_GRAY;
 }

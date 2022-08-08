@@ -16,13 +16,19 @@ public class Display extends JPanel implements Settings{
     /**
      */
     // Static values/constants of the class.
+    public final static int WHITE_PERSPECTIVE = 1;
+    public final static int BLACK_PERSPECTIVE = 0;
+    private static Dimension toBeBordered = null;
 
     // Fields/attributes of the class.
     private int width; // The width of the current JPanel.
     private int height; // The height of the current JPanel.
-    private final int blockLength = 30; // The length of a block, a square block which will be drawn on the current JPanel.
+    private int perspective; // This value indicates with which piece set the user is going to play.
+    private final int blockLength = INITIAL_SCREEN_HEIGHT/CLASSIC_CHESS_NUMBER_OF_COLUMNS; // The length of a block, a square block which will be drawn on the current JPanel.
     private double growthFactorX = 1.0; // The growth factor determines by how much we ought to increase the graphics in accordance to the screen size on the x-axis.
     private double growthFactorY = 1.0; //The growth factor determines by how much we ought to increase the graphics in accordance to the screen size on the y-axis.
+    private boolean isBackgroundDrawn = false; // A boolean value indicating whether the background was drawn or not.
+
 
 
     // Constructor(s) of the class.
@@ -34,16 +40,19 @@ public class Display extends JPanel implements Settings{
          * current display automatically, this being achieved by selecting the values from within the Settings interface.
          * This constructor uses the previously declared one, a feat which keeps the code clean and readable.
          *
+         * If no perspective is specified then the player will automatically play with the white pieces.
+         *
          * @author Andrei-Paul Ionescu
          */
 
-        new Display(INITIAL_SCREEN_WIDTH, INITIAL_SCREEN_HEIGHT);
+        new Display(INITIAL_SCREEN_WIDTH, INITIAL_SCREEN_HEIGHT, Display.WHITE_PERSPECTIVE);
     }
 
-    public Display(int width, int height){
+    public Display(int width, int height, int perspective){
         /*
-         * @param width; an intenger value which represents the desired width of the current display as specified by the caller.
+         * @param width; an integer value which represents the desired width of the current display as specified by the caller.
          * @param height; an integer value which represents the desired height of the current display as specified by the caller.
+         * @param perspective; a parameter indicating which piece set the current player will utilise.
          *
          * This is the main constructor of the Display class, whose role is to initialise the width and height fields and to
          * set the preferred size of the current JPanel in accordance to these values and the constant value blockLength.
@@ -53,6 +62,7 @@ public class Display extends JPanel implements Settings{
 
         this.width = width;
         this.height = height;
+        this.perspective = perspective;
 
         this.setPreferredSize(new Dimension(this.blockLength * this.width, this.blockLength * this.height));
 
@@ -79,7 +89,12 @@ public class Display extends JPanel implements Settings{
 
 
         super.paintComponent(graphics); // Call the JPanel's paintComponent method and pass to it the current frame's graphics.
-        this.drawBackground(graphics); // Call the drawBackground method and pass the current frame's graphics.
+
+        if(!this.isBackgroundDrawn)
+            this.drawBackground(graphics); // Call the drawBackground method and pass the current frame's graphics.
+
+        if(toBeBordered != null) addBorder((int) toBeBordered.getHeight(),
+                (int) toBeBordered.getHeight(), graphics);
 
         this.updateGrowthFactor(); // Update the growth factor after each Frame so as to ensure that the graphics are properly scaled.
 
@@ -87,8 +102,37 @@ public class Display extends JPanel implements Settings{
     }
 
     // Public static methods of the unit.
+    public static void addBorder(int x, int y){
+        /**
+         * @param x; an integer corresponding to the position on the abscissa axis for the cell which will currently be bordered.
+         * @param y; an integer corresponding to the position on the abscissa axis for the cell which will currently be bordered.
+         *
+         * This here method adds a border to the cell which was currently clicked by the user, whilst keeping track that
+         * no more than two cells at one time can have this property.
+         *
+         * @author Andrei-Paul Ionescu.
+         */
+
+       toBeBordered = new Dimension(x, y);
+    }
 
     // Private methods of the unit.
+    private void addBorder(int x, int y, Graphics graphics){
+
+        // Retrieve the current colour.
+        Color temporary = graphics.getColor();
+
+        // Set the colour to the desired one and update the border.
+        graphics.setColor(BORDER_COLOR);
+        graphics.drawRect(x * this.blockLength, y*this.blockLength,
+                (int) (this.blockLength * this.growthFactorX), (int)(this.blockLength * this.growthFactorY)); // Draw the margins of the block which we want to draw.
+
+        // Reset the colour to the original one.
+        graphics.setColor(temporary);
+
+        toBeBordered = null;
+    }
+
     private void updateGrowthFactor(){
         /*
          * @param none; this method takes no formal arguments upon invocation.
@@ -116,16 +160,32 @@ public class Display extends JPanel implements Settings{
 
         // Iterated thru the matrix whose size is the couple (this.width, this.height) and instantiate the blocks within the
         // current graphics.
-        for(int i = 0 ; i < this.width/this.blockLength ; ++i){
-            for(int j = 0 ; j < this.height/this.blockLength ; ++j){
+        for(int i = 0 ; i < CLASSIC_CHESS_NUMBER_OF_ROWS; ++i){
 
-                graphics.setColor(Color.BLACK); // Set the colour of the board to black which is the default background colour.
+            if(i == 0){
+
+                if(this.perspective == Display.BLACK_PERSPECTIVE)
+                    graphics.setColor(BLACK_CELL);
+                else if(this.perspective == Display.WHITE_PERSPECTIVE)
+                    graphics.setColor(WHITE_CELL);
+            } else{
+
+                if(graphics.getColor() == BLACK_CELL) graphics.setColor(WHITE_CELL);
+                else if(graphics.getColor() == WHITE_CELL) graphics.setColor(BLACK_CELL);
+            }
+
+            for(int j = 0 ; j < CLASSIC_CHESS_NUMBER_OF_COLUMNS; ++j){
+
                 graphics.drawRect(i * this.blockLength, j*this.blockLength,
                         (int) (this.blockLength * this.growthFactorX), (int)(this.blockLength * this.growthFactorY)); // Draw the margins of the block which we want to draw.
                 graphics.fillRect(i * this.blockLength,  j*this.blockLength,
                         (int) (this.blockLength * this.growthFactorX), (int) (this.blockLength * this.growthFactorY)); // Fill the rect so as to achieve a solid black background.
+
+                if(graphics.getColor() == BLACK_CELL) graphics.setColor(WHITE_CELL);
+                else if(graphics.getColor() == WHITE_CELL) graphics.setColor(BLACK_CELL);
             }
         }
 
+        this.isBackgroundDrawn = true;
     }
 }

@@ -3,10 +3,18 @@ package com.main.board;
 
 // Imports from custom libraries, classes and interfaces.
 import com.main.components.Piece;
+import com.main.gui.graphics.Display;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.EventListener;
 
 // Imports from existing Java libraries, classes and interfaces.
 
-public class Cell {
+public class Cell extends JComponent{
     /*
      * This here compilation unit models a class whose role is to represented one cell from within the chessboard,
      * thus this class contains information regarding the colour of the case and the piece which is placed, if placed
@@ -39,7 +47,4 @@ public class Cell {
 
     // Public non-static methods of the class.
     public boolean isEmpty() {return piece == null;}
-
-    @Override
-    public String toString() {return (this.piece != null) ? "this.piece.getName()[0]" : this.colour ?  "-"  :  "*";}
 }
