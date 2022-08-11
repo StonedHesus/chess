@@ -6,6 +6,13 @@ package com.main.components;
 // Import from custom libraries, classes and interfaces.
 import com.main.components.Piece;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import static java.lang.System.exit;
+
 public class Rook extends Piece{
     /**
      */
@@ -19,7 +26,21 @@ public class Rook extends Piece{
 
         // Invoke the parent/super constructor.
         super(colour, Rook.name);
+
+        // Instantiate the sprite for the current instance in accordance with the colour which the piece has.
+        BufferedImage sprite = null;
+
+        try {
+
+            sprite = ImageIO.read(new File((System.getProperty("user.dir")) +
+                    "/src/com/main/static/pieces/" + ((colour) ? "white-set/rook.png" : "black-set/rook.png")));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        super.setSprite(sprite);
     }
+
     // Getters of the class.
 
     // Setters of the class.

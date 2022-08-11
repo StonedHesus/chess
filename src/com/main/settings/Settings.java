@@ -22,9 +22,11 @@ public interface Settings {
     Dimension CLASSIC_CHESS_DIMENSIONS = new Dimension(CLASSIC_CHESS_NUMBER_OF_ROWS,
             CLASSIC_CHESS_NUMBER_OF_COLUMNS);
 
+
     // Settings for the View object.
-    int INITIAL_SCREEN_WIDTH  = 800;
-    int INITIAL_SCREEN_HEIGHT = 800;
+    int INITIAL_SCREEN_WIDTH  = 480;
+    int INITIAL_SCREEN_HEIGHT = 509;
+    int CELL_SIZE = 60;
     String GAME_TITLE         = "Chess";
     Color BLACK_CELL          = new Color(0xd18b47);
     Color WHITE_CELL          = new Color(0xffce9e);

@@ -2,9 +2,13 @@
 
 package com.main.components;
 // Imports from existing Java libraries, classes and interfaces.
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 // Import from custom libraries, classes and interfaces.
-import com.main.components.Piece;
+
 
 public class Pawn extends Piece {
     /**
@@ -21,6 +25,19 @@ public class Pawn extends Piece {
 
         // Invoke the constructor of the parent/super class.
         super(colour, Pawn.name);
+
+        // Instantiate the sprite for the current instance in accordance with the colour which the piece has.
+        BufferedImage sprite = null;
+
+        try {
+
+            sprite = ImageIO.read(new File((System.getProperty("user.dir")) +
+                    "/src/com/main/static/pieces/" + ((colour) ? "white-set/pawn.png" : "black-set/pawn.png")));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        super.setSprite(sprite);
     }
     // Getters of the class.
 

@@ -13,6 +13,7 @@ import java.io.IOException;
 import com.main.gui.View;
 import com.main.settings.Settings;
 import com.main.gui.graphics.Display;
+import com.main.board.Chessboard;
 
 public class GameView extends View implements Settings {
     /**
@@ -22,12 +23,12 @@ public class GameView extends View implements Settings {
      * @author Andrei-Paul Ionescu
      */
     // Static values/constants of the class.
-    private Display display;
 
     // Fields/attributes of the class.
+    private Display display;
 
     // Constructor(s) of the class.
-    public GameView(int perspective){
+    public GameView(int perspective) {
 
         // Call the constructor of the class from which MainMenu inherits.
         super();

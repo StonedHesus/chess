@@ -6,6 +6,11 @@ package com.main.components;
 // Import from custom libraries, classes and interfaces.
 import com.main.components.Piece;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class King extends Piece{
     /**
      */
@@ -19,6 +24,19 @@ public class King extends Piece{
 
         // Invoke the constructor of the parent/super class.
         super(colour, King.name);
+
+        // Instantiate the sprite for the current instance in accordance with the colour which the piece has.
+        BufferedImage sprite = null;
+
+        try {
+
+            sprite = ImageIO.read(new File((System.getProperty("user.dir")) +
+                    "/src/com/main/static/pieces/" + ((colour) ? "white-set/king.png" : "black-set/king.png")));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        super.setSprite(sprite);
     }
     // Getters of the class.
 

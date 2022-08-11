@@ -4,6 +4,7 @@ package com.main.components;
 // Imports from custom libraries, classes and interfaces
 
 // Imports from existing Java libraries, classes and interfaces
+import java.awt.image.BufferedImage;
 import java.util.Locale;
 
 public abstract class Piece {
@@ -20,8 +21,9 @@ public abstract class Piece {
     public final static String NAME_ERROR_VALUE = "(Erroneous input)";
 
     // Fields/attributes of the class.
-    final boolean colour; // Where false is black and true is white.
-    final String name; // The appellation of the current piece.
+    private final boolean colour; // Where false is black and true is white.
+    private final String name; // The appellation of the current piece.
+    private BufferedImage sprite = null;
 
     // Constructor(s) of the class.
     public Piece(boolean colour, String name){
@@ -31,8 +33,12 @@ public abstract class Piece {
     }
 
     // Getters of the class.
+    public String getName() {return this.name;}
+
+    public BufferedImage getSprite() {return this.sprite;}
 
     // Setters of the class.
+    public void setSprite(BufferedImage sprite) {this.sprite = sprite;}
 
     // Public non-static methods.
     @Override

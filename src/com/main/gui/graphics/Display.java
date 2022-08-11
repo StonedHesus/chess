@@ -7,9 +7,14 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.temporal.ChronoUnit;
 import java.util.EventListener;
 
 // Import from custom libraries, classes and interfaces.
+import com.main.board.Cell;
+import com.main.board.Chessboard;
+import com.main.board.EmptyCell;
+import com.main.board.OccupiedCell;
 import com.main.settings.Settings;
 
 public class Display extends JPanel implements Settings{
@@ -24,12 +29,10 @@ public class Display extends JPanel implements Settings{
     private int width; // The width of the current JPanel.
     private int height; // The height of the current JPanel.
     private int perspective; // This value indicates with which piece set the user is going to play.
-    private final int blockLength = INITIAL_SCREEN_HEIGHT/CLASSIC_CHESS_NUMBER_OF_COLUMNS; // The length of a block, a square block which will be drawn on the current JPanel.
+    private final int blockLength = CELL_SIZE; // The length of a block, a square block which will be drawn on the current JPanel.
     private double growthFactorX = 1.0; // The growth factor determines by how much we ought to increase the graphics in accordance to the screen size on the x-axis.
     private double growthFactorY = 1.0; //The growth factor determines by how much we ought to increase the graphics in accordance to the screen size on the y-axis.
-    private boolean isBackgroundDrawn = false; // A boolean value indicating whether the background was drawn or not.
-
-
+    private Chessboard chessboard;
 
     // Constructor(s) of the class.
     public Display(){
@@ -64,6 +67,10 @@ public class Display extends JPanel implements Settings{
         this.height = height;
         this.perspective = perspective;
 
+        // Initialise the chessboard object.
+        this.chessboard = new Chessboard(perspective);
+
+        // Set the preferred size of the JPanel component.
         this.setPreferredSize(new Dimension(this.blockLength * this.width, this.blockLength * this.height));
 
     }
@@ -90,13 +97,13 @@ public class Display extends JPanel implements Settings{
 
         super.paintComponent(graphics); // Call the JPanel's paintComponent method and pass to it the current frame's graphics.
 
-        if(!this.isBackgroundDrawn)
-            this.drawBackground(graphics); // Call the drawBackground method and pass the current frame's graphics.
+        this.drawBackground(graphics); // Call the drawBackground method and pass the current frame's graphics.
 
-        if(toBeBordered != null) addBorder((int) toBeBordered.getHeight(),
-                (int) toBeBordered.getHeight(), graphics);
+        this.drawChessboard(graphics);
 
         this.updateGrowthFactor(); // Update the growth factor after each Frame so as to ensure that the graphics are properly scaled.
+
+        addBorder(0, 0, graphics);
 
         Toolkit.getDefaultToolkit().sync(); // Call the sync method whose role is to ensure a smooth transition from frame to frame.
     }
@@ -117,6 +124,29 @@ public class Display extends JPanel implements Settings{
     }
 
     // Private methods of the unit.
+    private void drawChessboard(Graphics graphics){
+        /**
+         * @graphics; A Graphics graphical object.
+         *
+         * This here method draws to the screen the current configuration of the chessboard object.
+         *
+         * @author Andrei-Paul Ionescu.
+         */
+
+        // Iterate through the chessboard object and display each piece's BufferedImage field.
+        for(int i = 0 ; i < CLASSIC_CHESS_NUMBER_OF_ROWS ; ++i){
+            for(int j = 0 ; j < CLASSIC_CHESS_NUMBER_OF_COLUMNS ; ++j){
+
+                Cell current = this.chessboard.getCell(i, j);
+
+                if(current instanceof OccupiedCell)
+                    graphics.drawImage(((OccupiedCell) current).getPiece().getSprite(), j * CELL_SIZE, i * CELL_SIZE,null, this);
+
+            }
+        }
+
+    }
+
     private void addBorder(int x, int y, Graphics graphics){
 
         // Retrieve the current colour.
@@ -185,7 +215,5 @@ public class Display extends JPanel implements Settings{
                 else if(graphics.getColor() == WHITE_CELL) graphics.setColor(BLACK_CELL);
             }
         }
-
-        this.isBackgroundDrawn = true;
     }
 }
